@@ -1,17 +1,19 @@
 const express = require('express');
-
-//custom files
-const { requestWebPage } = require('./web-scrapper/scraper');
+//import middlewares
+const { reqCounter, readStats } = require('./middleware/request-counter');
 
 const app = express();
 
-//calling the scrapper repeatedly to work fetch and update data
+app.use(reqCounter);
 
-app.get('/', (req, res) => {
-  res.send('hello');
+app.get('/api/', (req, res) => {
+  res.sendStatus(200);
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}!`);
+app.get('/stats/', (req, res) => {
+  res.json(readStats());
+});
+
+app.listen(5000, () => {
+  console.log('App listening on port 5000!');
 });

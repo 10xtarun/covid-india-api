@@ -1,5 +1,7 @@
 const nodeFetch = require('node-fetch');
 const cheerio = require('cheerio');
+const fs = require('fs');
+const DATA_FILE_PATH = 'data/allStates.json';
 
 var fetchOptions = {
   method: 'GET',
@@ -17,10 +19,7 @@ function checkStatus(res) {
     throw res.statusText;
   }
 }
-
-var intervalId = setInterval(function () {
-  requestWebPage();
-}, 3000);
+var jsonData = [];
 
 function requestWebPage() {
   //fetching data from URL
@@ -29,19 +28,51 @@ function requestWebPage() {
     .then((res) => res.text())
     .then((body) => {
       let $ = cheerio.load(body);
-      //collecting state headers/titles
-      let stateHeaders = $(
-        '#state-data > div > div > div > div > table > thead > tr'
-      );
-      //console.log('reached', body);
-      var headText = stateHeaders.contents().text().trim();
-      headText = headText.split('\n\t');
-      console.log(headText);
+      //collecting data wrt state data
+      let stateData = $('#state-data > div > div > div > div > table > tbody');
+
+      var stateText = stateData.contents().text().trim();
+      stateText = stateText.split('\n\t\n\t');
+
+      for (var i = 0; i < stateText.length; i++) {
+        if (stateText[i] == '' || stateText[i] == '\n') {
+          stateText.splice(i, 1);
+        }
+      }
+      for (var i = 0; i < stateText.length; i++) {
+        if (stateText[i] == '' || stateText[i] == '\n') {
+          stateText.splice(i, 1);
+        }
+        temp = stateText[i].split('\n\t').filter((ele) => {
+          return ele != '\n' && ele != '' && ele != "'";
+        });
+        jsonData.push({
+          id: parseInt(temp[0]),
+          stateName: temp[1],
+          totalCases: parseInt(temp[2]),
+          cured: parseInt(temp[3]),
+          death: parseInt(temp[4]),
+        });
+        if (parseInt(temp[0]) == 32) {
+          break;
+        }
+      }
+      dumpData(jsonData);
     })
     .catch((err) => {
       console.log(err);
     });
-
-  clearInterval(intervalId);
 }
-requestWebPage();
+module.exports.requestWebPage = requestWebPage;
+
+console.log(requestWebPage());
+
+function dumpData(data) {
+  try {
+    fs.writeFileSync(DATA_FILE_PATH, JSON.stringify(data), { flag: 'w+' });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+module.exports.requestWebPage = requestWebPage;
