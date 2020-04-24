@@ -1,0 +1,21 @@
+{
+  "name": "covid-india-api",
+  "version": "1.0.0",
+  "description": "an API to fetch Covid-19 data wrt India",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "express"
+  ],
+  "author": "Tarun Singh",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.0",
+    "puppeteer": "^3.0.1"
+  }
+}
