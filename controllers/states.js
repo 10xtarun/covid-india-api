@@ -1,7 +1,8 @@
 const asyncHandler = require('../middleware/async');
 const fs = require('fs');
-const ENG_FILE_PATH = 'data/allStates.json';
-const HINDI_FILE_PATH = 'data/hindi.json';
+const ENG_FILE_PATH = __dirname + '/../data/allStates.json';
+const HINDI_FILE_PATH = __dirname + '/../data/hindi.json';
+const DATE_FILE_PATH = __dirname + '/../data/time.json';
 
 //@desc GET all states data
 //@route GET /api/v1/states
@@ -23,9 +24,12 @@ exports.getAllStates = asyncHandler(async (req, res, next) => {
     });
   }
   const countData = await data.length;
+  const date = await JSON.parse(fs.readFileSync(DATE_FILE_PATH));
+
   res.status(200).json({
     success: true,
     count: countData,
+    lastUpdatedAt: date,
     data: data,
   });
 });
@@ -58,9 +62,11 @@ exports.getState = asyncHandler(async (req, res, next) => {
       data: stateData,
     });
   }
+  const date = await JSON.parse(fs.readFileSync(DATE_FILE_PATH));
 
   res.status(200).json({
     success: true,
+    lastUpdatedAt: date,
     data: stateData,
   });
 });
