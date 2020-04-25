@@ -15,3 +15,30 @@ exports.getAllStates = asyncHandler(async (req, res, next) => {
     data: data,
   });
 });
+
+//@desc GET data of particular state
+//@route GET /api/v1/states/:statename
+//@access Public
+exports.getState = asyncHandler(async (req, res, next) => {
+  const data = await JSON.parse(fs.readFileSync(READ_FILE_PATH));
+  var stateData = null;
+
+  await data.forEach((element) => {
+    if (element['searchName'] == req.params.statename) {
+      stateData = element;
+    }
+  });
+
+  if (!stateData) {
+    //if state not found
+    return res.status(404).json({
+      success: false,
+      data: stateData,
+    });
+  }
+
+  res.status(200).json({
+    success: true,
+    data: stateData,
+  });
+});

@@ -9,9 +9,11 @@ const { reqCounter } = require('./middleware/request-counter');
 //initialize the express app
 const app = express();
 
+//use middleware
+app.use(reqCounter);
+
 //mount the routers
 app.use('/api/v1/states/', stateRouter);
-app.use(reqCounter);
 
 //load the PORT number
 const PORT = process.env.PORT || 5000;

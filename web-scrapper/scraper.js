@@ -1,5 +1,6 @@
 const nodeFetch = require('node-fetch');
 const cheerio = require('cheerio');
+const slugify = require('slugify');
 const fs = require('fs');
 const DATA_FILE_PATH = 'data/allStates.json';
 
@@ -52,6 +53,7 @@ function requestWebPage() {
           totalCases: parseInt(temp[2]),
           cured: parseInt(temp[3]),
           death: parseInt(temp[4]),
+          searchName: slugify(temp[1], { replacement: '-', lower: true }),
         });
         if (parseInt(temp[0]) == 32) {
           break;
@@ -64,9 +66,6 @@ function requestWebPage() {
     });
 }
 module.exports.requestWebPage = requestWebPage;
-
-console.log(requestWebPage());
-
 function dumpData(data) {
   try {
     fs.writeFileSync(DATA_FILE_PATH, JSON.stringify(data), { flag: 'w+' });
