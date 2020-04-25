@@ -17,13 +17,8 @@ module.exports.reqCounter = reqCounter = (req, res, next) => {
         5 ==
       0
     ) {
-      console.log(
-        stats['GET /api/v1/states 200'] + stats['GET /api/v1/state/:name 200']
-      );
       //after every fifth request the data wil be update by scrapper
       requestWebPage();
-      //save the data in hindi
-      //saveDataInHindi();
     }
   });
   next();

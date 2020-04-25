@@ -39,6 +39,6 @@ module.exports.EngToHindi = function (num) {
     }
     return str;
   } else {
-    return 'wrong format of number provided.';
+    return null;
   }
 };

@@ -29,7 +29,7 @@ exports.getAllStates = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     count: countData,
-    lastUpdatedAt: date,
+    lastUpdated: date['lastUpdatedAt'],
     data: data,
   });
 });
@@ -66,7 +66,7 @@ exports.getState = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    lastUpdatedAt: date,
+    lastUpdated: date['lastUpdatedAt'],
     data: stateData,
   });
 });
