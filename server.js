@@ -13,7 +13,7 @@ const app = express();
 app.use(reqCounter);
 
 //mount the routers
-app.use('/api/v1/states/', stateRouter);
+app.use('/api/v1/', stateRouter);
 
 //load the PORT number
 const PORT = process.env.PORT || 5000;

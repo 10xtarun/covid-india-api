@@ -2,7 +2,8 @@ const nodeFetch = require('node-fetch');
 const cheerio = require('cheerio');
 const slugify = require('slugify');
 const fs = require('fs');
-const DATA_FILE_PATH = 'data/allStates.json';
+const DATA_FILE_PATH = __dirname + '/../data/allStates.json';
+const { saveDataInHindi } = require('../utils/save-data-hindi');
 
 var fetchOptions = {
   method: 'GET',
@@ -60,6 +61,7 @@ function requestWebPage() {
         }
       }
       dumpData(jsonData);
+      jsonData = [];
     })
     .catch((err) => {
       console.log(err);
@@ -69,6 +71,15 @@ module.exports.requestWebPage = requestWebPage;
 function dumpData(data) {
   try {
     fs.writeFileSync(DATA_FILE_PATH, JSON.stringify(data), { flag: 'w+' });
+    saveDataInHindi();
+    var date = new Date();
+    fs.writeFileSync(
+      __dirname + '/../data/time.json',
+      JSON.stringify({ lastUpdatedAt: date.toJSON() }),
+      {
+        flag: 'w+',
+      }
+    );
   } catch (err) {
     console.log(err);
   }

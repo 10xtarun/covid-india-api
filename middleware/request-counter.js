@@ -1,6 +1,7 @@
 //with help of request counter you can trigger scrapper after certain number of request
 const fs = require('fs');
-const FILE_PATH = 'stats/request-logs.json';
+const FILE_PATH = __dirname + '/../stats/request-logs.json';
+const { saveDataInHindi } = require('../utils/save-data-hindi');
 
 //import scrapper function
 const { requestWebPage } = require('../web-scrapper/scraper');
@@ -11,9 +12,18 @@ module.exports.reqCounter = reqCounter = (req, res, next) => {
     const routeEvent = `${req.method} ${getRoute(req)} ${res.statusCode}`;
     stats[routeEvent] = stats[routeEvent] ? stats[routeEvent] + 1 : 1;
     dumpStats(stats);
-    if (stats['"GET /api/v1/states/ 200"'] % 5 == 0) {
+    if (
+      (stats['GET /api/v1/states 200'] + stats['GET /api/v1/state/:name 200']) %
+        5 ==
+      0
+    ) {
+      console.log(
+        stats['GET /api/v1/states 200'] + stats['GET /api/v1/state/:name 200']
+      );
       //after every fifth request the data wil be update by scrapper
       requestWebPage();
+      //save the data in hindi
+      //saveDataInHindi();
     }
   });
   next();

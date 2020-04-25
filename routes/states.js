@@ -6,8 +6,12 @@ const { getAllStates, getState } = require('../controllers/states');
 const router = express.Router();
 
 //routing
-router.route('/').get(getAllStates);
+//all states
+//router.route('/states').get(getAllStates);
 
-router.route('/:statename').get(getState);
+//all states in hindi
+router.route('/states').get(getAllStates);
+
+router.route('/state/:name').get(getState);
 
 module.exports = router;
