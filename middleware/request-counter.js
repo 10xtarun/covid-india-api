@@ -11,7 +11,6 @@ module.exports.reqCounter = reqCounter = (req, res, next) => {
     const routeEvent = `${req.method} ${getRoute(req)} ${res.statusCode}`;
     stats[routeEvent] = stats[routeEvent] ? stats[routeEvent] + 1 : 1;
     dumpStats(stats);
-    console.log('check:  ', stats['GET /api/ 200'] % 5);
     if (stats['GET /api/ 200'] % 5 == 0) {
       //after every fifth request the data wil be update by scrapper
       requestWebPage();

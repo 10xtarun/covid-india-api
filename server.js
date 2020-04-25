@@ -1,19 +1,26 @@
 const express = require('express');
-//import middlewares
-const { reqCounter, readStats } = require('./middleware/request-counter');
+const dotenv = require('dotenv');
+//import Routers
+const stateRouter = require('./routes/states');
 
+//import middlewares
+const { reqCounter } = require('./middleware/request-counter');
+
+//initialize the express app
 const app = express();
 
+//mount the routers
+app.use('/api/v1/states/', stateRouter);
 app.use(reqCounter);
 
-app.get('/api/', (req, res) => {
-  res.sendStatus(200);
-});
+//load the PORT number
+const PORT = process.env.PORT || 5000;
 
-app.get('/stats/', (req, res) => {
-  res.json(readStats());
-});
+//server listener
+const server = app.listen(
+  PORT,
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
+);
 
-app.listen(5000, () => {
-  console.log('App listening on port 5000!');
-});
+//for testing purpose export the app
+module.exports = app;
