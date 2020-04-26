@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
 dotenv.config();
 //import Routers
 const stateRouter = require('./routes/states');
@@ -9,6 +10,13 @@ const { reqCounter } = require('./middleware/request-counter');
 
 //initialize the express app
 const app = express();
+
+var corsOptions = {
+  origin: 'http://127.0.0.1:5500',
+};
+
+//cors
+app.use(cors(corsOptions));
 
 //use middleware
 app.use(reqCounter);

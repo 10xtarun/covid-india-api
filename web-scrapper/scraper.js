@@ -75,7 +75,18 @@ function dumpData(data) {
     var date = new Date();
     fs.writeFileSync(
       __dirname + '/../data/time.json',
-      JSON.stringify({ lastUpdatedAt: date.toJSON() }),
+      JSON.stringify({
+        lastUpdatedAt:
+          date.getDate() +
+          '-' +
+          date.getMonth() +
+          '-' +
+          date.getFullYear() +
+          ' ' +
+          date.getHours() +
+          ':' +
+          date.getMinutes(),
+      }),
       {
         flag: 'w+',
       }

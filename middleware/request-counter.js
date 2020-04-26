@@ -13,8 +13,11 @@ module.exports.reqCounter = reqCounter = (req, res, next) => {
     stats[routeEvent] = stats[routeEvent] ? stats[routeEvent] + 1 : 1;
     dumpStats(stats);
     if (
-      (stats['GET /api/v1/states 200'] + stats['GET /api/v1/state/:name 200']) %
-        5 ==
+      (stats['GET /api/v1/states 304'] +
+        stats['GET /api/v1/states 200'] +
+        stats['GET /api/v1/state/:name 200'] +
+        stats['GET /api/v1/state/:name 304']) %
+        15 ==
       0
     ) {
       //after every fifth request the data wil be update by scrapper
