@@ -12,7 +12,7 @@ const { reqCounter } = require('./middleware/request-counter');
 const app = express();
 
 var corsOptions = {
-  origin: 'https://10xtarun.github.io/',
+  origin: 'https://10xtarun.github.io/frontend-covid-india-api/',
 };
 
 //cors
