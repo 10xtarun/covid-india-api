@@ -12,7 +12,7 @@ const { reqCounter } = require('./middleware/request-counter');
 const app = express();
 
 var corsOptions = {
-  origin: 'http://127.0.0.1:5500',
+  origin: 'https://10xtarun.github.io/',
 };
 
 //cors
